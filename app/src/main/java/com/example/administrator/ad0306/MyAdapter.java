@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -54,6 +57,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
         final Person person=array.get(position);
+        BmobFile file= person.getImage();
+        if(file!=null){
+            String imgUrl=file.getFileUrl();
+            if(imgUrl!=null){
+                Glide.with(holder.image.getContext()).load(imgUrl).into(holder.image);
+            }
+        }
         holder.tvName.setText(person.getName());
         holder.tvAge.setText(String.valueOf(person.getAge()));
         holder.tvAddress.setText(person.getAddress());
